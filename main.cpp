@@ -1,108 +1,130 @@
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 class STUDENT {                //this outputs name, age=0 and ID=0, empty class basically, ready to take in data
 
-    public:
+public:
 
-     STUDENT(){
+	STUDENT() {
 
-         name ;                 //constructor that initializes variables
-         age = 0;
-         ID = 0;
+		name ;                 //constructor that initializes variables
+		age = 0;
+		ID = 0;
 
-    }
+	}
 
-       void set_name(string studentname){
+	void set_name(string studentname) {
 
-           name = studentname;
+		name = studentname;
 
-       }
-       string get_name(){
+	}
+	string get_name() {
 
-           return name;
+		return name;
 
-       }
-       void set_age(int studentage){
+	}
+	void set_age(int studentage) {
 
-           age = studentage;
+		age = studentage;
 
-       }
-       int get_age(){
+	}
+	int get_age() {
 
-           return age;
+		return age;
 
-       }
-       void set_ID(int studentid){
+	}
+	void set_ID(int studentid) {
 
-           ID = studentid;
+		ID = studentid;
 
-       }
-       int get_ID(){
+	}
+	int get_ID() {
 
-           return ID;
+		return ID;
 
-       }
+	}
 
-    void DISPLAY (){                     //display method
+	void EnterStudentInfo() {
 
-        cout<<"Student name is: "<<get_name()<<endl<<"Student age is: "<<get_age()<<endl<<"Student ID is: "<<get_ID()<<endl;
+		string studentname;
+		int studentage;
+		int studentID;
 
-    }
+		cout<<"Enter student name"<<endl;
+		cin>>studentname;
+		set_name(studentname);
+		cout<<"Enter student age"<<endl;
+		cin>>studentage;
+		set_age(studentage);
+		cout<<"Enter student ID"<<endl;
+		cin>>studentID;
+		set_ID(studentID);
 
-    private:              
+	}
 
-       string name;
-       int age;
-       int ID;
+	void DISPLAY () {                    //display method
+
+		cout<<"Student name is: "<<get_name()<<endl<<"Student age is: "<<get_age()<<endl<<"Student ID is: "<<get_ID()<<endl;
+
+	}
+
+private:
+
+	string name;
+	int age;
+	int ID;
 
 
 };
 
-int Menu(int option) {
+int Menu(int option, vector<STUDENT*>& students) {
 
-    switch (option) {
+	switch (option) {
 
-    case 1:
-        cout<<"Add student"<<endl;
-                    break;
-    case 2:
-        cout<<"View students"<<endl;
-                    break;
-    case 3:
-        cout<<"Exit"<<endl;
-                    break;
+	case 1:
+	   {	cout<<"Add student"<<endl;
+		STUDENT* ptr = new STUDENT();
+	    ptr->EnterStudentInfo();
+	    students.push_back(ptr);
+		break;}
+	case 2:
+		{cout<<"View students"<<endl;
+		for (auto s : students) {
+                    s->DISPLAY();
+                }
+		break;}
+	case 3:
+		cout<<"Exit"<<endl;
+		break;
 
-    }
-    return 0;
+	}
+	return 0;
 }
 
-int Loop(int option){
+int Loop(vector<STUDENT*>& students) {
+     int option;
+	do {
 
-    do{
+		cout<<"Choose option 1 for add student, 2 for view students or 3 for exit"<<endl;
+		cin>>option;
+		Menu(option, students);
 
-        cout<<"Choose option 1 for add student, 2 for view students or 3 for exit"<<endl;
-        cin>>option;
-        Menu(option);
+	}
 
-    }
-
-    while (option != 3);
-        return 0;
+	while (option != 3);
+	return 0;
 
 }
 
 int main()
 {
-    int option;
-    cout<<"Choose option 1 for add student, 2 for view students or 3 for exit"<<endl;
-    cin>>option;
 
-    STUDENT studentInfo;
-    studentInfo.DISPLAY();
-
-    Loop(option);
-
-    return 0;
+	vector <STUDENT*> NewStudents;
+	Loop(NewStudents);
+    for (auto s : NewStudents) {
+        delete s;
+    }
+	return 0;
 }
